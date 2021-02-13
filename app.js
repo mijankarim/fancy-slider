@@ -4,7 +4,7 @@ const galleryHeader = document.querySelector(".gallery-header");
 const searchBtn = document.getElementById("search-btn");
 const sliderBtn = document.getElementById("create-slider");
 const sliderContainer = document.getElementById("sliders");
-const searchField = document.getElementById("search");
+const search = document.getElementById("search");
 const selectedNumber = document.getElementById("selected-number");
 const spinner = document.getElementById("spinner");
 // selected image
@@ -52,7 +52,6 @@ const selectItem = (event, img) => {
   } else {
     sliders.splice(item, 1);
   }
-  console.log(sliders);
   selectedNumber.innerHTML = `<h4 class="py-4">You selected ${sliders.length} images</h4>`;
 };
 
@@ -121,9 +120,10 @@ const changeSlide = (index) => {
 searchBtn.addEventListener("click", function () {
   document.querySelector(".main").style.display = "none";
   clearInterval(timer);
-  const search = document.getElementById("search");
   getImages(search.value);
   sliders.length = 0;
+  search.value=""
+  
 });
 
 sliderBtn.addEventListener("click", function () {
@@ -131,7 +131,7 @@ sliderBtn.addEventListener("click", function () {
 });
 
 // show image when press enter key
-searchField.addEventListener("keyup", function (event) {
+search.addEventListener("keyup", function (event) {
   if (event.code === "Enter") {
     event.preventDefault();
     searchBtn.click();
