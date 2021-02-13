@@ -5,6 +5,7 @@ const searchBtn = document.getElementById('search-btn');
 const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
 const searchField = document.getElementById('search');
+const selectedNumber = document.getElementById('selected-number');
 // selected image 
 let sliders = [];
 
@@ -26,7 +27,7 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
   })
-
+  selectedNumber.innerHTML = ``
 }
 
 const getImages = (query) => {
@@ -48,6 +49,7 @@ const selectItem = (event, img) => {
     sliders.pop(img);
   }
   console.log(sliders)
+  selectedNumber.innerHTML = `<h4 class="py-4">You selected ${sliders.length} images</h4>`;
 }
 var timer
 const createSlider = () => {
