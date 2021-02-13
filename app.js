@@ -50,11 +50,12 @@ const selectItem = (event, img) => {
   if (item === -1) {
     sliders.push(img);
   } else {
-    sliders.pop(img);
+    sliders.splice(item, 1);
   }
   console.log(sliders);
   selectedNumber.innerHTML = `<h4 class="py-4">You selected ${sliders.length} images</h4>`;
 };
+
 var timer;
 const createSlider = () => {
   // check slider image length
