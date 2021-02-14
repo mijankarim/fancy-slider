@@ -7,6 +7,8 @@ const sliderContainer = document.getElementById("sliders");
 const search = document.getElementById("search");
 const selectedNumber = document.getElementById("selected-number");
 const spinner = document.getElementById("spinner");
+const notFoundDiv = document.getElementById("not-found");
+
 // selected image
 let sliders = [];
 
@@ -28,6 +30,7 @@ const showImages = (images) => {
     gallery.appendChild(div);
   });
   selectedNumber.innerHTML = ``;
+  notFoundDiv.innerHTML = ``;
   toggleSpinner();
 };
 
@@ -37,7 +40,7 @@ const getImages = (query) => {
     `https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`
   )
     .then((response) => response.json())
-    .then((data) => showImages(data.hits))
+    .then((data) => {data.total > 0 ? showImages(data.hits) : notFound("Image Not found")})
     .catch((err) => console.log(err));
 };
 
@@ -62,6 +65,7 @@ const createSlider = () => {
     alert("Select at least 2 image.");
     return;
   }
+
   // crate slider previous next area
   sliderContainer.innerHTML = "";
   const prevNext = document.createElement("div");
@@ -71,9 +75,9 @@ const createSlider = () => {
   <span class="prev" onclick="changeItem(-1)"><i class="fas fa-chevron-left"></i></span>
   <span class="next" onclick="changeItem(1)"><i class="fas fa-chevron-right"></i></span>
   `;
-
   sliderContainer.appendChild(prevNext);
   document.querySelector(".main").style.display = "block";
+
   // hide image aria
   imagesArea.style.display = "none";
   const duration = Math.abs(document.getElementById("duration").value) || 1000;
@@ -122,8 +126,7 @@ searchBtn.addEventListener("click", function () {
   clearInterval(timer);
   getImages(search.value);
   sliders.length = 0;
-  search.value=""
-  
+  search.value=""  
 });
 
 sliderBtn.addEventListener("click", function () {
@@ -138,7 +141,17 @@ search.addEventListener("keyup", function (event) {
   }
 });
 
+// spinner
 const toggleSpinner = () => {
   spinner.classList.toggle("d-none");
   gallery.classList.toggle("d-none");
 };
+
+// Error message when no image found
+const notFound = (error) => {
+  gallery.innerHTML = "";
+  notFoundDiv.innerHTML = `<h4 class="text-center py-5">${error}</h4>`;
+  toggleSpinner();
+}
+
+
